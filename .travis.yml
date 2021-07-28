@@ -1,0 +1,27 @@
+language: go
+
+go_import_path: github.com/wusphinx/estr
+
+go:
+  - "1.15"
+
+# https://docs.travis-ci.com/user/customizing-the-build/#Rows-that-are-Allowed-to-Fail
+env:
+    - TRAVIS_COVERAGE=0
+    - TRAVIS_COVERAGE=1
+
+# Run coverage tests.
+matrix:
+  fast_finish: true
+  allow_failures:
+    - go: "1.15"
+      env: TRAVIS_COVERAGE=1
+
+before_install:
+  - go get -t -v ./...
+
+script:
+  - go test -race -coverprofile=coverage.txt -covermode=atomic
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
