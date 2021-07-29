@@ -11,6 +11,10 @@ const (
 
 var hashID *hashids.HashID
 
+func GetHashid() *hashids.HashID {
+	return hashID
+}
+
 func Init(salt string, minLength uint8) error {
 	hd := hashids.NewData()
 	if salt == "" {
